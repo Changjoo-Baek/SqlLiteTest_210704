@@ -10,7 +10,7 @@ import android.provider.BaseColumns
             "${BaseColumns._ID} integer primary key autoincrement," +
             "$(LocalDatas.userData.COLUMN_NAME_ID} varchar(15)," +
             "$(LocalDatas.userData.COLUMN_NAME_PASSWORD} varchar(20)" +
-            "):"
+            ");"
 
     db.execSQL(sql)
     }
