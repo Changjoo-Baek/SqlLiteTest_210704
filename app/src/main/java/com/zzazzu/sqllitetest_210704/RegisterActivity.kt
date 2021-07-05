@@ -1,5 +1,6 @@
 package com.zzazzu.sqllitetest_210704
 
+import LocalDB
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
@@ -8,7 +9,7 @@ import com.zzazzu.sqllitetest_210704.databinding.ActivityRegisterBinding
 class RegisterActivity : AppCompatActivity() {
     private lateinit var binding : ActivityRegisterBinding
     private lateinit var localDB: LocalDB
-    val DATABASE_Version = 1
+    val DATABASE_VERSION = 1
     val DATABASE_NAME = "LocalDB.db"
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,10 +29,10 @@ class RegisterActivity : AppCompatActivity() {
                     if (localDB.checkIdExist(binding.editId.text.toString())) {
                         Toast.makeText(this, "아이디가 이미 존재합니다.", Toast.LENGTH_LONG).show()
                     } else {
-                        locaDB.registerUser(
+                        localDB.registerUser(
                             binding.editId.text.toString(),
                             binding.editPw.text.toString()
-                        )
+                        )}
                     }else{
                         Toast.makeText(this, "패스워드가 틀렸습니다.", Toast.LENGTH_LONG).show()
                     }

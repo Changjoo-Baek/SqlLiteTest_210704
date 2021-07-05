@@ -1,5 +1,6 @@
 package com.zzazzu.sqllitetest_210704
 
+import LocalDB
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -29,9 +30,9 @@ class MainActivity : AppCompatActivity() {
         binding.btnLogin.setOnClickListener { view ->
             val id = binding.editId.text.toString()
             val passwd = binding.editPw.text.toString()
-            val exist = localDB > logIn(id, passwd) // 로그인 실행
+            val exist = localDB.logIn(id, passwd) // 로그인 실행
             if (exist) {
-                val Intent = Intent(this, SecondActivity::class.java)
+                val intent = Intent(this, SecondActivity::class.java)
                 startActivity(intent)
             } else {
                 Toast.makeText(

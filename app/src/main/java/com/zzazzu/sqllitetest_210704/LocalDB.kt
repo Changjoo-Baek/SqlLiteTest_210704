@@ -1,15 +1,41 @@
-package com.zzazzu.sqllitetest_210704
+//package com.zzazzu.sqllitetest_210704
 
 import android.content.ContentValues
+import android.content.Context
 import android.database.sqlite.SQLiteDatabase
+import android.database.sqlite.SQLiteOpenHelper
 import android.provider.BaseColumns
+import com.zzazzu.sqllitetest_210704.LocalDatas
 
-    fun createDatabase(db: SQLiteDatabase) {
+class LocalDB (
+    context: Context?,
+    name: String?,
+    factory: SQLiteDatabase.CursorFactory?,
+    version:Int
+) :SQLiteOpenHelper(context,name,factory,version){
+
+    override fun onCreate(db: SQLiteDatabase?) {
+        //DB 생성시 실행
+        if(db!=null){
+            createDatabase(db)
+        }
+    }
+
+    override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
+        val sql: String = "DROP TABLE if exists ${LocalDatas.userData.TABLE_NAME}"
+
+        if(db !=null){
+            db.execSQL(sql)
+            onCreate(db)
+        } // 버전이 변경되면 기존 table을 삭제 후 재생성
+}
+
+fun createDatabase(db: SQLiteDatabase) {
      // 테이블이 존재하지 않는 경우 생성
-        var sql: String = "CREATE TABLE if not exists $(LocalDatas.userData.TABLE_NAME} (" +
+        var sql: String = "CREATE TABLE if not exists ${LocalDatas.userData.TABLE_NAME} (" +
             "${BaseColumns._ID} integer primary key autoincrement," +
-            "$(LocalDatas.userData.COLUMN_NAME_ID} varchar(15)," +
-            "$(LocalDatas.userData.COLUMN_NAME_PASSWORD} varchar(20)" +
+            "${LocalDatas.userData.COLUMN_NAME_ID} varchar(15)," +
+            "${LocalDatas.userData.COLUMN_NAME_PASSWORD} varchar(20)" +
             ");"
 
     db.execSQL(sql)
@@ -25,7 +51,7 @@ import android.provider.BaseColumns
     // 인서트 후 인서트된 primary key column 의 값(_id_ 반환.
     }
 
-    fun checkIdExists(id: String): Boolean {
+    fun checkIdExist(id: String): Boolean {
         val db = this.readableDatabase
 
         // 리턴받고자 하는 컬럼 값의 array
@@ -48,9 +74,9 @@ import android.provider.BaseColumns
             null,                           //having 조건
             null                            //orderby 조건 지정
         )
-        if (cursor.count > 0) {
-            return true;
-        } else{
+        if(cursor.count>0){// 반환된 cursor의 0번째 값이 null이면 
+         return true;
+        }else{
             return false;
         }
     }
@@ -84,4 +110,4 @@ import android.provider.BaseColumns
         } else {
             return false;
         }
-    }
+    }}
